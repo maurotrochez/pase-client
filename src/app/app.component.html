@@ -1,20 +1,88 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-2 blog-sidebar">
+      <div class="sidebar-module sidebar-module-inset">
+        <h5>Coordinadores</h5>
+        <ol class="list-unstyled">
+          <li><a [routerLink]="['/preguntas']">Pregunta</a></li>
+          <li><a href="#">Ingeniería</a></li>
+          <li><a href="#">Educación a distancia y virtual</a></li>
+          <li><a href="#">Ciencias basicas</a></li>
+          <li><a href="#">Ciencias sociales y humanas</a></li>
+          <li><a href="#">Language center</a></li>
+          <li><a href="#">Bienestar universitario</a></li>
+          <li><a href="#">PMA</a></li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-xl-8 blog-main">
 
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col-xl-2 blog-sidebar">
+      <div class="sidebar-module sidebar-module-inset">
+        <h5>Enfermeria</h5>
+        <img src="http://placehold.it/160x120">
+      </div>
+      <hr>
+      <div class="sidebar-module sidebar-module-inset">
+        <h5>Horas de tutorias</h5>
+        <img src="http://placehold.it/160x120">
+      </div>
+      <hr>
+      <div class="sidebar-module sidebar-module-inset">
+        <h5>Psicología</h5>
+        <img src="http://placehold.it/160x120" data-toggle="modal" data-target="#exampleModal">
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">SERVICIOS PSICOLOGICOS EN LINEA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="card-group">
+                  <div class="card" style="width: 15rem;">
+                    <img src="http://placehold.it/110x70" alt="Card image cap">
+                    <div class="card-body">
+                      <h6 class="card-title">Contactanos por correo</h6>
+                    </div>
+                  </div>
+                  <div class="card" style="width: 15rem;">
+                    <img src="http://placehold.it/110x70" alt="Card image cap">
+                    <div class="card-body">
+                      <h6 class="card-title">Graba un video</h6>
+                    </div>
+                  </div>
+                  <div class="card" style="width: 15rem;">
+                    <img src="http://placehold.it/110x70" alt="Card image cap">
+                    <div class="card-body">
+                      <h6 class="card-title">Graba un audio</h6>
+                    </div>
+                  </div>
+                  <div class="card" style="width: 15rem;">
+                    <img src="http://placehold.it/110x70" alt="Card image cap">
+                    <div class="card-body">
+                      <h6 class="card-title">Solicita cita previa</h6>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

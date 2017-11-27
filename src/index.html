@@ -7,8 +7,73 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Bootstrap core CSS -->
+  <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
+  <!--<link href="assets/css/bootstrap.min.css" rel="stylesheet">-->
+  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>-->
+  <!-- Custom styles for this template -->
+  <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <link href="assets/css/navbar-top-fixed.css" rel="stylesheet">
 </head>
 <body>
-  <app-root></app-root>
+<nav class="navbar navbar-expand-xl fixed-top navbar-light bg-light">
+  <!--<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"-->
+  <!--data-target="#collapsingNavbar">-->
+  <!--<span class="navbar-toggler-icon"></span>-->
+  <!--</button>-->
+  <!--<a class="navbar-brand" href="#!">Fixed top</a>-->
+  <nav class="nav flex-column">
+    <a href="/" class="navbar-brand">
+      <img src="http://placehold.it/120x60"> PASE: Programa de Apoyo Acompañamiento y Seguimiento a Estudiantes</a>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true"
+             aria-expanded="false">
+            Adiccionar</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="modulo_1.html">Adicionar Pregunta</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true"
+             aria-expanded="false">
+            Consultar</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="inactivar.html">Consultar Pregunta</a>
+            <a class="dropdown-item" href="./consultar_estudiante.html">Consultar Estudiante</a>
+            <a class="dropdown-item" href="./consultar_grupo.html">Consultar Grupo</a>
+            <a class="dropdown-item" href="./consulta_docente.html">Consultar Docente</a>
+            <a class="dropdown-item" href="./consulta_entrevista.html">Consultar Entrevista</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true"
+             aria-expanded="false">
+            Entrevista</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="./realizar_entrevista.html">Realizar entrevista</a>
+            <a class="dropdown-item" href="./modificar_entrevista.html">Modificar entrevista</a>
+
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#!" role="button" aria-haspopup="true"
+             aria-expanded="false">
+            Salir</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="./login.html">Cerrar Sesion</a>
+          </div>
+        </li>
+      </ul>
+      <div class="form-inline mt-2 mt-md-0">
+        <span>Nombre de usuario autenticado</span>
+      </div>
+    </div>
+  </nav>
+</nav>
+<app-root></app-root>
+
 </body>
 </html>

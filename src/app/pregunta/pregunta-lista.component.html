@@ -1,0 +1,65 @@
+<div class='blog-main'>
+  <div class="sidebar-module sidebar-module-inset">
+    <h4>
+      {{pageTitle}}
+    </h4>
+    <br>
+
+    <div class='row'>
+      <div class='col-md-2'>Buscar:</div>
+      <div class='col-md-4'>
+        <input class="form-control form-control-sm" type='text' [(ngModel)]='filtroPregunta'/>
+      </div>
+    </div>
+    <div class='row' *ngIf='filtroPregunta'>
+      <div class='col-md-6'>
+        <h3>Buscar: {{filtroPregunta}} </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+
+      </div>
+      <div class="col-md-0">
+        <a class="btn btn-primary btn-sm"
+           [routerLink]="['/preguntaEditar/0']">
+          Agregar
+        </a>
+      </div>
+    </div>
+
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+
+    <div class='row'>
+      <table class='table table-sm table-striped' style='margin-top: 2%;'
+             *ngIf='preguntas && preguntas.length'>
+        <thead>
+        <tr>
+          <th>Descripcion</th>
+          <th>Tipo de pregunta</th>
+          <th>Grupo</th>
+          <th>Dependencia</th>
+          <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let pregunta of preguntas'>
+          <td><a [routerLink]="['/pregunta', pregunta.preguntaId]">
+            {{pregunta.descripcion}}
+          </a>
+          </td>
+          <td>{{ pregunta.tipoPreguntaId}}</td>
+          <td>{{ pregunta.grupoPreguntaId }}</td>
+          <td>{{ pregunta.dependenciaId }}</td>
+          <td style="text-align: right;">
+            <a class="btn btn-primary btn-sm"
+               [routerLink]="['/preguntaEditar', pregunta.preguntaId]">
+              Editar
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
