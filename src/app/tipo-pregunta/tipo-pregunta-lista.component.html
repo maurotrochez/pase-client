@@ -1,0 +1,58 @@
+<div class='blog-main'>
+  <div class="sidebar-module sidebar-module-inset">
+    <h4>
+      {{pageTitle}}
+    </h4>
+    <br>
+
+    <div class='row'>
+      <div class='col-md-2'>Buscar:</div>
+      <div class='col-md-4'>
+        <input class="form-control form-control-sm" type='text' [(ngModel)]='filtroTipoPregunta'/>
+      </div>
+    </div>
+    <div class='row' *ngIf='filtroTipoPregunta'>
+      <div class='col-md-6'>
+        <h3>Buscar: {{filtroTipoPregunta}} </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+
+      </div>
+      <div class="col-md-0">
+        <a class="btn btn-primary btn-sm"
+           [routerLink]="['/tipoPreguntaEditar/0']">
+          Agregar
+        </a>
+      </div>
+    </div>
+
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+
+    <div class='row'>
+      <table class='table table-sm table-striped' style='margin-top: 2%;'
+             *ngIf='tipoPreguntas && tipoPreguntas.length'>
+        <thead>
+        <tr>
+          <th>Descripcion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let tipoP of tipoPreguntas'>
+          <td><a [routerLink]="['/tipo', tipoP.tipoPreguntaId]">
+            {{tipoP.descripcion}}
+          </a>
+          </td>
+          <td style="text-align: right;">
+            <a class="btn btn-primary btn-sm"
+               [routerLink]="['/tipoPreguntaEditar', tipoP.tipoPreguntaId]">
+              Editar
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -8,13 +8,13 @@ import {RouterModule} from "@angular/router";
 import {PreguntaModule} from "./pregunta/pregunta.module";
 import { HomeComponent } from './home/home.component';
 import {HttpClientModule} from "@angular/common/http";
+import {TipoPreguntaModule} from "./tipo-pregunta/tipo-pregunta.module";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    // PreguntaListaComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +22,7 @@ import {HttpClientModule} from "@angular/common/http";
       { path: 'home', component: HomeComponent}
     ]),
     PreguntaModule,
+    TipoPreguntaModule,
     HttpClientModule
   ],
   providers: [],
