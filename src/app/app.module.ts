@@ -9,6 +9,7 @@ import {PreguntaModule} from "./pregunta/pregunta.module";
 import { HomeComponent } from './home/home.component';
 import {HttpClientModule} from "@angular/common/http";
 import {TipoPreguntaModule} from "./tipo-pregunta/tipo-pregunta.module";
+import {GrupoPreguntaModule} from "./grupo-pregunta/grupo-pregunta.module";
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {TipoPreguntaModule} from "./tipo-pregunta/tipo-pregunta.module";
     ]),
     PreguntaModule,
     TipoPreguntaModule,
+    GrupoPreguntaModule,
     HttpClientModule
   ],
   providers: [],

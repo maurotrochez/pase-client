@@ -19,7 +19,7 @@ export class GrupoPreguntaService {
       .catch(this.errorHandler);
   }
 
-  getGrupoPreguntaa(id: number): Observable<IGrupoPregunta> {
+  getGrupoPregunta(id: number): Observable<IGrupoPregunta> {
     if (id === 0) {
       return Observable.of(this.initializeGrupoPregunta());
     }

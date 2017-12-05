@@ -1,3 +1,58 @@
-<p>
-  grupo-pregunta-lista works!
-</p>
+<div class='blog-main'>
+  <div class="sidebar-module sidebar-module-inset">
+    <h4>
+      {{pageTitle}}
+    </h4>
+    <br>
+
+    <div class='row'>
+      <div class='col-md-2'>Buscar:</div>
+      <div class='col-md-4'>
+        <input class="form-control form-control-sm" type='text' [(ngModel)]='filtroGrupoPregunta'/>
+      </div>
+    </div>
+    <div class='row' *ngIf='filtroGrupoPregunta'>
+      <div class='col-md-6'>
+        <h3>Buscar: {{filtroGrupoPregunta}} </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+
+      </div>
+      <div class="col-md-0">
+        <a class="btn btn-primary btn-sm"
+           [routerLink]="['/grupoPreguntaEditar/0']">
+          Agregar
+        </a>
+      </div>
+    </div>
+
+    <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+
+    <div class='row'>
+      <table class='table table-sm table-striped' style='margin-top: 2%;'
+             *ngIf='grupoPreguntas && grupoPreguntas.length'>
+        <thead>
+        <tr>
+          <th>Descripcion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let grup of grupoPreguntas'>
+          <td><a [routerLink]="['/grupo', grup.grupoPreguntaId]">
+            {{grup.descripcion}}
+          </a>
+          </td>
+          <td style="text-align: right;">
+            <a class="btn btn-primary btn-sm"
+               [routerLink]="['/grupoPreguntaEditar', grup.grupoPreguntaId]">
+              Editar
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
