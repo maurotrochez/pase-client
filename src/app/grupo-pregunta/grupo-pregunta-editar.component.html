@@ -1,0 +1,63 @@
+<div class="blog-main">
+  <div class="sidebar-module sidebar-module-inset">
+
+    <h3>{{pageTitle}}</h3>
+    <hr>
+
+    <div >
+      <form
+        novalidate
+        (ngSubmit)="saveGrupoPregunta()"
+        [formGroup]="grupoPreguntaForm">
+
+
+        <fieldset>
+          <div class="form-group row"
+               [ngClass]="{'has-danger': displayMessage.descripcion }">
+            <label class="col-md-2 control-label" for="descripcionId">Descripción</label>
+
+            <div class="col-md-6">
+             <textarea class="form-control"
+                       id="descripcionId"
+                       placeholder="Descripcion"
+                       rows=3
+                       formControlName="descripcion"></textarea>
+              <span class="help-block" *ngIf="displayMessage.descripcion">
+                                {{displayMessage.descripcion}}
+                        </span>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-4 col-md-offset-2">
+                        <span>
+                            <button class="btn btn-primary"
+                                    type="submit"
+                                    style="width:80px;margin-right:10px"
+                                    [disabled]='!grupoPreguntaForm.valid'>
+                                Save
+                            </button>
+                        </span>
+              <span>
+                            <a class="btn btn-default"
+                               style="width:80px"
+                               [routerLink]="['/grupos']">
+                                Cancel
+                            </a>
+                        </span>
+              <span>
+                            <a class="btn btn-default"
+                               style="width:80px"
+                               (click)="deleteGrupoPregunta()">
+                                Delete
+                            </a>
+                        </span>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+    </div>
+
+  </div>
+</div>

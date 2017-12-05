@@ -4,6 +4,7 @@ import {GrupoPreguntaListaComponent} from './grupo-pregunta-lista.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {GrupoPreguntaService} from "./grupo-pregunta.service";
+import { GrupoPreguntaEditarComponent } from './grupo-pregunta-editar.component';
 
 @NgModule({
   imports: [
@@ -12,12 +13,12 @@ import {GrupoPreguntaService} from "./grupo-pregunta.service";
     FormsModule,
     RouterModule.forChild([
       {path: 'grupos', component: GrupoPreguntaListaComponent},
-      // { path: 'grupoPreguntaEditar/:id',
+      { path: 'grupoPreguntaEditar/:id',
       // canDeactivate: [ ProductEditGuard ],
-      // component: TipoPreguntaEditarComponent },
+      component: GrupoPreguntaEditarComponent },
     ])
   ],
-  declarations: [GrupoPreguntaListaComponent],
+  declarations: [GrupoPreguntaListaComponent, GrupoPreguntaEditarComponent],
   providers: [GrupoPreguntaService]
 })
 export class GrupoPreguntaModule {

@@ -32,7 +32,7 @@ export class GrupoPreguntaService {
   saveGrupoPregunta(grupoPregunta: IGrupoPregunta): Observable<any> {
     const headers = new HttpHeaders().set('Content-type', 'application/json');
     if (grupoPregunta.grupoPreguntaId === 0) {
-      return this.createGrupoPregunta(grupoPregunta, {headers: headers});
+      return this.createGrupoPregunta(grupoPregunta, {headers: headers, responseType: 'text'});
     }
     return this.updateGrupoPregunta(grupoPregunta, {headers: headers, responseType: 'text'});
   }
@@ -67,7 +67,7 @@ export class GrupoPreguntaService {
   private errorHandler(error: HttpErrorResponse) {
     console.error(error);
     let errorMessage = '';
-    if (error.error instanceof Error) {
+    if (error.error instanceof HttpErrorResponse) {
       // A client-side or network error occurred. Handle it accordingly.
       errorMessage = `An error occurred: ${error.error.message}`;
     } else {
