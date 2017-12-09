@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
@@ -13,7 +13,7 @@ import {AppSettings} from "../global";
 @Injectable()
 export class PreguntaService {
 
-  private baseUrl = 'pregunta/preguntas';
+  private baseUrl = 'preguntas';
 
   constructor(private http: HttpClient) {
   }
@@ -35,6 +35,41 @@ export class PreguntaService {
       .catch(this.errorHandler);
   }
 
+  savePregunta(pregunta: IPregunta): Observable<any> {
+    const headers = new HttpHeaders().set('Content-type', 'application/json');
+    if (pregunta.preguntaId === 0) {
+      return this.createPregunta(pregunta, {headers: headers});
+    }
+    return this.updatePregunta(pregunta, {headers: headers, responseType: 'text'});
+  }
+
+  private createPregunta(pregunta: IPregunta, options: {}): Observable<any> {
+    pregunta.preguntaId = undefined;
+    pregunta.creadoPor = 2;
+    pregunta.creadoEn = Date.now().toString();
+    pregunta.modifPor = 0;
+    pregunta.modifEn = null;
+    return this.http.post(`${AppSettings.API_ENDPOINT}${this.baseUrl}`, pregunta, options)
+      .do(data => console.log('createPregunta:'))
+      .catch(this.errorHandler);
+  }
+
+  deletePregunta(id: number): Observable<any> {
+    const headers = new HttpHeaders().set('Content-type', 'application/json');
+    const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/${id}`;
+    return this.http.delete(url, {responseType: 'text'})
+      .do(data => console.log('deletePregunta'))
+      .catch(this.errorHandler);
+  }
+
+  private updatePregunta(pregunta: IPregunta, options: {}): Observable<IPregunta> {
+    const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/`;
+    return this.http.put(url, pregunta, options)
+      .map(() => pregunta)
+      .do(data => console.log('updatePregunta: ' + JSON.stringify(data)))
+      .catch(this.errorHandler);
+  }
+
   private errorHandler(error: HttpErrorResponse) {
     console.error(error);
     let errorMessage = '';
@@ -53,12 +88,11 @@ export class PreguntaService {
   initializePregunta(): IPregunta {
     return {
       preguntaId: 0,
-      descripcion: null,
-      dependenciaId: null,
-      grupoPreguntaId: null,
-      estado: null,
-      textoId: null,
-      tipoPreguntaId: null
+      descripcion: '',
+      dependencia: null,
+      grupoPregun: null,
+      estado: 'A',
+      tipoPregun: null
     };
   }
 }

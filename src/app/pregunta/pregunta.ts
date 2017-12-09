@@ -1,9 +1,13 @@
 export interface IPregunta {
+  grupoPregun?: number;
+  tipoPregun?: number;
+  creadoPor?: number;
+  modifPor?: number;
+  textoPregunta?: number;
+  dependencia?: number;
   preguntaId: number;
   descripcion: string;
   estado: string;
-  tipoPreguntaId: number;
-  grupoPreguntaId: number;
-  dependenciaId: number;
-  textoId: number;
+  creadoEn?: string;
+  modifEn?: string;
 }

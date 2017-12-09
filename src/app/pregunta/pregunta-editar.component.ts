@@ -32,15 +32,15 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
               private router: Router,
               private servicioPregunta: PreguntaService) {
     this.validationMessages = {
-      descripcionPregunta: {
+      descripcion: {
         required: 'La descripción es requerida.',
         minlength: 'La descripción debe tener al menos 3 caracteres.',
         maxlength: 'La descripción no puede execeder 50 caracteres.'
       },
-      tipoPregunta: {
+      tipoPregun: {
         required: 'El tipo de pregunta es requerido.'
       },
-      grupoPregunta: {
+      grupoPregun: {
         required: 'El grupo de la pregunta es requerido.'
       }
     };
@@ -51,11 +51,11 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit(): void {
     this.preguntaForm = this.fb.group({
-      descripcionPregunta: ['', [Validators.required,
+      descripcion: ['', [Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50)]],
-      tipoPregunta: ['', Validators.required],
-      grupoPregunta: ['', Validators.required],
+      tipoPregun: ['', Validators.required],
+      grupoPregun: ['', Validators.required],
       estado: ['', Validators.required],
       dependencia: [''],
       texto: ['']
@@ -103,9 +103,46 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.preguntaForm.patchValue({
       descripcionPregunta: this.pregunta.descripcion,
-      grupoPregunta: this.pregunta.grupoPreguntaId,
-      tipoPregunta: this.pregunta.tipoPreguntaId,
+      grupoPregun: this.pregunta.grupoPregun,
+      tipoPregun: this.pregunta.tipoPregun,
       estado: this.pregunta.estado
     });
   }
+
+  savePregunta(): void {
+    if (this.preguntaForm.dirty && this.preguntaForm.valid) {
+      let t = Object.assign({}, this.pregunta, this.preguntaForm.value);
+
+      this.servicioPregunta.savePregunta(t)
+        .subscribe(
+          () => this.onSaveComplete(),
+          (error: any) => {
+            this.errorMessage = <any>error;
+          }
+        );
+    } else if (!this.preguntaForm.dirty) {
+      this.onSaveComplete();
+    }
+  }
+
+  deletePregunta(): void {
+    if (this.pregunta.preguntaId === 0) {
+      this.onSaveComplete();
+    } else {
+      if (confirm(`Está seguro de eliminar: ${this.pregunta.descripcion}?`)) {
+        this.servicioPregunta.deletePregunta(this.pregunta.preguntaId)
+          .subscribe(
+            () => this.onSaveComplete(),
+            (error: any) => this.errorMessage = <any>error
+          );
+      }
+    }
+  }
+
+  onSaveComplete(): void {
+    // Reset the form to clear the flags
+    this.preguntaForm.reset();
+    this.router.navigate(['/preguntas']);
+  }
+
 }
