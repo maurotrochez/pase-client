@@ -14,6 +14,7 @@ import {ITipoPregunta} from "../tipo-pregunta/tipo-pregunta";
 import {IGrupoPregunta} from "../grupo-pregunta/grupo-pregunta";
 import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
 import {isNumber} from "util";
+import {getQueryValue} from "@angular/core/src/view/query";
 
 @Component({
   // selector: 'app-pregunta-editar',
@@ -34,9 +35,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   tipos: ITipoPregunta[] = [];
   grupos: IGrupoPregunta[] = [];
   textoLargo = false;
-  textoCorto = false;
   dicotomica = false;
-  opcionMultiple = false;
+  seleccionMultiple = false;
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -87,10 +87,25 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     this.getGruposPregunta();
 
     this.preguntaForm.controls['tipoPregun'].valueChanges.subscribe(tipo => {
+        // console.log(typeof tipo);
+        // console.log(this.tipos);
         if (tipo) {
           let selectedTipo = this.tipos.filter(p => p.tipoPreguntaId === +tipo)[0];
-          if (selectedTipo.descripcion === "Nuevo modif") {
+          // console.log(selectedTipo);
+          if (selectedTipo && selectedTipo.descripcion === "Abierta") {
             this.textoLargo = true;
+            this.dicotomica = false;
+            this.seleccionMultiple = false;
+          }
+          else if (selectedTipo && selectedTipo.descripcion === "Dicotómica") {
+            this.textoLargo = false;
+            this.dicotomica = true;
+            this.seleccionMultiple = false;
+          }
+          else if (selectedTipo && selectedTipo.descripcion === "Selección múltiple") {
+            this.textoLargo = true;
+            this.dicotomica = true;
+            this.seleccionMultiple = true;
           }
         }
       }
