@@ -13,7 +13,7 @@
 
         <fieldset>
           <div class="form-group row"
-               [ngClass]="{'has-danger': displayMessage.descripcionng}">
+               [ngClass]="{'has-danger': displayMessage.descripcion}">
             <label class="col-md-2 control-label" for="descripcionPreguntaId">Descripción</label>
 
             <div class="col-md-6">
@@ -49,26 +49,35 @@
             <label class="col-md-2 control-label" for="tipoPreguntafId">Tipo de pregunta</label>
 
             <div class="col-md-8">
-              <input class="form-control has-danger"
-                     id="tipoPreguntafId"
-                     type="text"
-                     placeholder="Tipo de pregunta"
-                     formControlName="tipoPregun"/>
+              <!--<input class="form-control has-danger"-->
+                     <!--id="tipoPreguntafId"-->
+                     <!--type="text"-->
+                     <!--placeholder="Tipo de pregunta"-->
+                     <!--formControlName="tipoPregun"/>-->
+              <select class="custom-select form-control" id="tipoPreguntafId" formControlName="tipoPregun">
+                <option *ngFor="let tipo of tipos" [value]="tipo.tipoPreguntaId" >{{tipo.descripcion}}</option>
+              </select>
               <span class="form-control-feedback" *ngIf="displayMessage.tipoPregunta">
                                 {{displayMessage.tipoPregunta}}
                         </span>
             </div>
+          </div>
+          <div *ngIf="textoLargo">
+            <p>Texto largo</p>
           </div>
 
           <div class="form-group row" [ngClass]="{'has-error': displayMessage.grupoPregunta}">
             <label class="col-md-2 control-label" for="grupoPreguntafId">Grupo de pregunta</label>
 
             <div class="col-md-8">
-              <input class="form-control"
-                     id="grupoPreguntafId"
-                     type="text"
-                     placeholder="Grupo de pregunta"
-                     formControlName="grupoPregun"/>
+              <!--<input class="form-control"-->
+                     <!--id="grupoPreguntafId"-->
+                     <!--type="text"-->
+                     <!--placeholder="Grupo de pregunta"-->
+                     <!--formControlName="grupoPregun"/>-->
+              <select class="custom-select form-control" id="grupoPreguntafId" formControlName="grupoPregun" >
+                <option *ngFor="let grupo of grupos" [value]="grupo.grupoPreguntaId">{{grupo.descripcion}}</option>
+              </select>
               <span class="help-block" *ngIf="displayMessage.grupoPregunta">
                                 {{displayMessage.grupoPregunta}}
                         </span>

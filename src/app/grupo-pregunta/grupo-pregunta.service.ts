@@ -7,7 +7,7 @@ import {AppSettings} from "../global";
 @Injectable()
 export class GrupoPreguntaService {
 
-  private baseUrl = 'grupos';
+  private baseUrl = 'grupoPregunta/grupos';
 
   constructor(private http: HttpClient) {
   }

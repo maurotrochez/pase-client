@@ -13,7 +13,7 @@ import {AppSettings} from "../global";
 @Injectable()
 export class PreguntaService {
 
-  private baseUrl = 'preguntas';
+  private baseUrl = 'pregunta/preguntas';
 
   constructor(private http: HttpClient) {
   }

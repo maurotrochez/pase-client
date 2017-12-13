@@ -7,7 +7,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class TipoPreguntaService {
 
-  private baseUrl = 'tipos';
+  private baseUrl = 'tipoPregunta/tipos';
 
   constructor(private http: HttpClient) {
   }

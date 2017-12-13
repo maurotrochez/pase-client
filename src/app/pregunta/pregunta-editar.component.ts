@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChildren} from '@angular/core';
-import {FormBuilder, FormControlName, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormControlName, FormGroup, Validators} from "@angular/forms";
 import {IPregunta} from "./pregunta";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreguntaService} from "./pregunta.service";
@@ -9,6 +9,11 @@ import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
+import {TipoPreguntaService} from "../tipo-pregunta/tipo-pregunta.service";
+import {ITipoPregunta} from "../tipo-pregunta/tipo-pregunta";
+import {IGrupoPregunta} from "../grupo-pregunta/grupo-pregunta";
+import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
+import {isNumber} from "util";
 
 @Component({
   // selector: 'app-pregunta-editar',
@@ -26,11 +31,19 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
+  tipos: ITipoPregunta[] = [];
+  grupos: IGrupoPregunta[] = [];
+  textoLargo = false;
+  textoCorto = false;
+  dicotomica = false;
+  opcionMultiple = false;
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private servicioPregunta: PreguntaService) {
+              private servicioPregunta: PreguntaService,
+              private servicioTiposPregunta: TipoPreguntaService,
+              private servicioGrupos: GrupoPreguntaService) {
     this.validationMessages = {
       descripcion: {
         required: 'La descripción es requerida.',
@@ -50,12 +63,14 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnInit(): void {
+    this.getTiposPregunta();
+    this.getGruposPregunta();
     this.preguntaForm = this.fb.group({
       descripcion: ['', [Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50)]],
-      tipoPregun: ['', Validators.required],
-      grupoPregun: ['', Validators.required],
+      tipoPregun: new FormControl(this.tipos),
+      grupoPregun: [this.grupos, Validators.required],
       estado: ['', Validators.required],
       dependencia: [''],
       texto: ['']
@@ -67,6 +82,27 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
         this.getPregunta(id);
       }
     );
+
+    this.getTiposPregunta();
+    this.getGruposPregunta();
+
+    this.preguntaForm.controls['tipoPregun'].valueChanges.subscribe(tipo => {
+        if (tipo) {
+          let selectedTipo = this.tipos.filter(p => p.tipoPreguntaId === +tipo)[0];
+          if (selectedTipo.descripcion === "Nuevo modif") {
+            this.textoLargo = true;
+          }
+        }
+      }
+    );
+
+    //
+    // this.preguntaForm.controls['tipoPregun'].setValue(selectedTipo);
+
+  }
+
+  selectTipo(tipo) {
+    console.log(tipo);
   }
 
   ngOnDestroy(): void {
@@ -91,18 +127,36 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     );
   }
 
+  getTiposPregunta() {
+    this.servicioTiposPregunta.getTipoPreguntas().subscribe(
+      (tipos: ITipoPregunta[]) => {
+        this.tipos = tipos;
+      },
+      (error: any) => this.errorMessage = <any>error
+    );
+  }
+
+  getGruposPregunta(): void {
+    this.servicioGrupos.getGrupoPreguntas().subscribe(
+      (grupo: IGrupoPregunta[]) => {
+        this.grupos = grupo;
+      },
+      (error: any) => this.errorMessage = <any>error
+    );
+  }
+
   onPreguntaRetrieved(pregunta: IPregunta): void {
     if (this.preguntaForm)
       this.preguntaForm.reset();
     this.pregunta = pregunta;
 
-    if (this.pregunta.preguntaId == 0)
+    if (this.pregunta.preguntaId === 0)
       this.pageTitle = 'Agregar Pregunta';
     else
       this.pageTitle = `Editar Pregunta: ${this.pregunta.descripcion}`;
 
     this.preguntaForm.patchValue({
-      descripcionPregunta: this.pregunta.descripcion,
+      descripcion: this.pregunta.descripcion,
       grupoPregun: this.pregunta.grupoPregun,
       tipoPregun: this.pregunta.tipoPregun,
       estado: this.pregunta.estado
