@@ -32,7 +32,7 @@ export class TipoPreguntaService {
   saveTipoPregunta(tipoPregunta: ITipoPregunta): Observable<any> {
     const headers = new HttpHeaders().set('Content-type', 'application/json');
     if (tipoPregunta.tipoPreguntaId === 0) {
-      return this.createTipoPregunta(tipoPregunta, {headers: headers});
+      return this.createTipoPregunta(tipoPregunta, {headers: headers, responseType: 'text'});
     }
     return this.updateTipoPregunta(tipoPregunta, {headers: headers, responseType: 'text'});
   }
@@ -44,7 +44,10 @@ export class TipoPreguntaService {
     tipoPregunta.modifPor = 0;
     tipoPregunta.modifEn = null;
     return this.http.post(`${AppSettings.API_ENDPOINT}${this.baseUrl}`, tipoPregunta, options)
-      .do(data => console.log('createTipoPregunta:'))
+      .do(data => {
+        console.log('createTipoPregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 

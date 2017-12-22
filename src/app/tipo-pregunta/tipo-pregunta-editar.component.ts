@@ -101,7 +101,10 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
 
       this.servicioTipoPregunta.saveTipoPregunta(t)
         .subscribe(
-          () => this.onSaveComplete(),
+          (data) => {
+            this.onSaveComplete();
+            console.log(data);
+          },
           (error: any) => {
             this.errorMessage = <any>error;
           }

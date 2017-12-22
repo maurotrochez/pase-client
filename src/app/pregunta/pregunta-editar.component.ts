@@ -73,7 +73,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       grupoPregun: [this.grupos, Validators.required],
       estado: ['', Validators.required],
       dependencia: [''],
-      texto: ['']
+      texto: [''],
+      descripcionTextoLargo: [''],
     });
 
     this.sub = this.route.params.subscribe(
@@ -103,8 +104,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             this.seleccionMultiple = false;
           }
           else if (selectedTipo && selectedTipo.descripcion === "Selección múltiple") {
-            this.textoLargo = true;
-            this.dicotomica = true;
+            this.textoLargo = false;
+            this.dicotomica = false;
             this.seleccionMultiple = true;
           }
         }
@@ -176,6 +177,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       tipoPregun: this.pregunta.tipoPregun,
       estado: this.pregunta.estado
     });
+
+    this.preguntaForm.updateValueAndValidity();
   }
 
   savePregunta(): void {
