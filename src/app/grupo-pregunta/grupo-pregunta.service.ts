@@ -44,7 +44,10 @@ export class GrupoPreguntaService {
     grupoPregunta.modifPor = 0;
     grupoPregunta.modifEn = null;
     return this.http.post(`${AppSettings.API_ENDPOINT}${this.baseUrl}`, grupoPregunta, options)
-      .do(data => console.log('createGrupoPregunta:'))
+      .do(data => {
+        console.log('createGrupoPregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 
@@ -59,8 +62,10 @@ export class GrupoPreguntaService {
   private updateGrupoPregunta(grupoPregunta: IGrupoPregunta, options: {}): Observable<IGrupoPregunta> {
     const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/`;
     return this.http.put(url, grupoPregunta, options)
-      .map(() => grupoPregunta)
-      .do(data => console.log('updateGrupoPregunta: ' + JSON.stringify(data)))
+      .do(data => {
+        console.log('updateGrupoPregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 

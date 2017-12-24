@@ -50,7 +50,10 @@ export class PreguntaService {
     pregunta.modifPor = 0;
     pregunta.modifEn = null;
     return this.http.post(`${AppSettings.API_ENDPOINT}${this.baseUrl}`, pregunta, options)
-      .do(data => console.log('createPregunta:'))
+      .do(data => {
+        console.log('CreatePregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 
@@ -66,7 +69,10 @@ export class PreguntaService {
     const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/`;
     return this.http.put(url, pregunta, options)
       .map(() => pregunta)
-      .do(data => console.log('updatePregunta: ' + JSON.stringify(data)))
+      .do(data => {
+        console.log('updatePregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 

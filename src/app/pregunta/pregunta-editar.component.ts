@@ -15,6 +15,8 @@ import {IGrupoPregunta} from "../grupo-pregunta/grupo-pregunta";
 import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
 import {isNumber} from "util";
 import {getQueryValue} from "@angular/core/src/view/query";
+// CommonJS
+const swal = require('sweetalert2');
 
 @Component({
   // selector: 'app-pregunta-editar',
@@ -187,7 +189,20 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
 
       this.servicioPregunta.savePregunta(t)
         .subscribe(
-          () => this.onSaveComplete(),
+          (data) => {
+            swal({
+              title: "Excelente!",
+              text: data,
+              type: 'success',
+              button: "Ok!",
+              allowOutsideClick: false,
+            }).then((result)=>{
+              if(result.value){
+                this.onSaveComplete();
+              }
+            });
+            console.log(data);
+          },
           (error: any) => {
             this.errorMessage = <any>error;
           }

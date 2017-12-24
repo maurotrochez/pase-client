@@ -6,6 +6,8 @@ import {GenericValidator} from "../shared/generic-validator";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TipoPreguntaService} from "./tipo-pregunta.service";
 import {Observable} from "rxjs/Observable";
+// CommonJS
+const swal = require('sweetalert2');
 
 @Component({
   selector: 'app-tipo-pregunta-editar',
@@ -102,7 +104,17 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
       this.servicioTipoPregunta.saveTipoPregunta(t)
         .subscribe(
           (data) => {
-            this.onSaveComplete();
+            swal({
+              title: "Excelente!",
+              text: data,
+              type: 'success',
+              button: "Ok!",
+              allowOutsideClick: false,
+            }).then((result)=>{
+              if(result.value){
+                this.onSaveComplete();
+              }
+            });
             console.log(data);
           },
           (error: any) => {

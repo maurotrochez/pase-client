@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {ITipoPregunta} from "./tipo-pregunta";
-import {AppSettings} from "../global";
-import {Observable} from "rxjs/Observable";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ITipoPregunta} from './tipo-pregunta';
+import {AppSettings} from '../global';
+import {Observable} from 'rxjs/Observable';
+
 
 @Injectable()
 export class TipoPreguntaService {
@@ -59,11 +60,13 @@ export class TipoPreguntaService {
       .catch(this.errorHandler);
   }
 
-  private updateTipoPregunta(tipoPregunta: ITipoPregunta, options: {}): Observable<ITipoPregunta> {
+  private updateTipoPregunta(tipoPregunta: ITipoPregunta, options: {}): Observable<any> {
     const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/`;
     return this.http.put(url, tipoPregunta, options)
-      .map(() => tipoPregunta)
-      .do(data => console.log('updateTipoPregunta: ' + JSON.stringify(data)))
+      .do(data => {
+        console.log('updateTipoPregunta:');
+        return data;
+      })
       .catch(this.errorHandler);
   }
 

@@ -7,6 +7,8 @@ import {GenericValidator} from "../shared/generic-validator";
 import {Observable} from "rxjs/Observable";
 import {GrupoPreguntaService} from "./grupo-pregunta.service";
 import {HttpErrorResponse} from "@angular/common/http";
+// CommonJS
+const swal = require('sweetalert2');
 
 @Component({
   selector: 'app-grupo-pregunta-editar',
@@ -102,7 +104,20 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
 
       this.servicioGrupoPregunta.saveGrupoPregunta(t)
         .subscribe(
-          () => this.onSaveComplete(),
+          (data) => {
+            swal({
+              title: "Excelente!",
+              text: data,
+              type: 'success',
+              button: "Ok!",
+              allowOutsideClick: false,
+            }).then((result)=>{
+              if(result.value){
+                this.onSaveComplete();
+              }
+            });
+            console.log(data);
+          },
           (error: any) => {
             this.errorMessage = <any>error;
           }
