@@ -8,6 +8,7 @@ import {Observable} from "rxjs/Observable";
 import {GrupoPreguntaService} from "./grupo-pregunta.service";
 import {HttpErrorResponse} from "@angular/common/http";
 // CommonJS
+
 const swal = require('sweetalert2');
 
 @Component({

@@ -110,8 +110,8 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
               type: 'success',
               button: "Ok!",
               allowOutsideClick: false,
-            }).then((result)=>{
-              if(result.value){
+            }).then((result) => {
+              if (result.value) {
                 this.onSaveComplete();
               }
             });

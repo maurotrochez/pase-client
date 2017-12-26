@@ -44,26 +44,6 @@
             </div>
           </div>
 
-          <div class="form-group row"
-               [ngClass]="{'has-danger': displayMessage.tipoPregunta}">
-            <label class="col-md-2 control-label" for="tipoPreguntafId">Tipo de pregunta</label>
-
-            <div class="col-md-8">
-              <select class="custom-select form-control" id="tipoPreguntafId" formControlName="tipoPregun">
-                <option *ngFor="let tipo of tipos" [value]="tipo.tipoPreguntaId">{{tipo.descripcion}}</option>
-              </select>
-              <span class="form-control-feedback" *ngIf="displayMessage.tipoPregunta">
-                                {{displayMessage.tipoPregunta}}
-                        </span>
-            </div>
-          </div>
-          <div *ngIf="dicotomica">
-            <p>Dicotomica</p>
-          </div>
-          <div *ngIf="seleccionMultiple">
-            <p>Seleccion multiple</p>
-          </div>
-
           <div class="form-group row" [ngClass]="{'has-error': displayMessage.grupoPregunta}">
             <label class="col-md-2 control-label" for="grupoPreguntafId">Grupo de pregunta</label>
 
@@ -105,6 +85,49 @@
                      formControlName="texto"/>
             </div>
           </div>
+          <div class="form-group row"
+               [ngClass]="{'has-danger': displayMessage.tipoPregunta}">
+            <label class="col-md-2 control-label" for="tipoPreguntafId">Tipo de pregunta</label>
+
+            <div class="col-md-8">
+              <select class="custom-select form-control" id="tipoPreguntafId" formControlName="tipoPregun">
+                <option *ngFor="let tipo of tipos" [value]="tipo.tipoPreguntaId">{{tipo.descripcion}}</option>
+              </select>
+              <span class="form-control-feedback" *ngIf="displayMessage.tipoPregunta">
+                                {{displayMessage.tipoPregunta}}
+                        </span>
+            </div>
+          </div>
+          <div *ngIf="unicaRespuesta">
+            <button class="btn btn-primary"
+                    type="submit"
+                    style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar opciones de respuesta
+            </button>
+            <div class="form-control" formArrayName="opciones">
+              <div *ngFor="let respuesta of opciones.controls; let i=index">
+                <div [formGroupName]="i">
+                  <!--<h4>Opcion {{ i + 1 }}</h4>-->
+                  <!--<span>{{i+1}}</span>-->
+                  <label class="col-md-1 control-label" attr.for="{{'opcion1Id' + i}}">{{i+1}}</label>
+                  <input class="col-md-8"
+                         type="text"
+                         placeholder="Descripcion"
+                         id="{{'opcion1Id' + i}}"
+                         formControlName="descripcion"/>
+                  <input type="radio" name="" id="{{'opcion1Id' + i}}" formControlName="clave" name="clave" [value]="i">
+                  <button class="btn btn-danger" (click)="eliminarOpcion(i)">Eliminar</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div *ngIf="seleccionMultiple">
+            <p>Seleccion multiple</p>
+          </div>
+          <div *ngIf="listDespl">
+            <p>Lista desplegable</p>
+          </div>
+
           <div class="form-group row">
             <div class="col-md-4 col-md-offset-2">
                         <span>
@@ -134,6 +157,7 @@
         </fieldset>
       </form>
       <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+      <p>preguntaForm value: {{ preguntaForm.value | json}}</p>
     </div>
 
   </div>

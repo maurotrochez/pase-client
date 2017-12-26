@@ -1,5 +1,8 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChildren} from '@angular/core';
-import {FormBuilder, FormControl, FormControlName, FormGroup, Validators} from "@angular/forms";
+import {
+  AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges,
+  ViewChildren
+} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators} from "@angular/forms";
 import {IPregunta} from "./pregunta";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PreguntaService} from "./pregunta.service";
@@ -13,8 +16,8 @@ import {TipoPreguntaService} from "../tipo-pregunta/tipo-pregunta.service";
 import {ITipoPregunta} from "../tipo-pregunta/tipo-pregunta";
 import {IGrupoPregunta} from "../grupo-pregunta/grupo-pregunta";
 import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
-import {isNumber} from "util";
-import {getQueryValue} from "@angular/core/src/view/query";
+import {IRespuesta} from "./respuesta";
+
 // CommonJS
 const swal = require('sweetalert2');
 
@@ -36,8 +39,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   private genericValidator: GenericValidator;
   tipos: ITipoPregunta[] = [];
   grupos: IGrupoPregunta[] = [];
-  textoLargo = false;
-  dicotomica = false;
+  listDespl = false;
+  unicaRespuesta = false;
   seleccionMultiple = false;
 
   constructor(private fb: FormBuilder,
@@ -77,6 +80,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       dependencia: [''],
       texto: [''],
       descripcionTextoLargo: [''],
+      opciones: this.fb.array([])
     });
 
     this.sub = this.route.params.subscribe(
@@ -95,19 +99,23 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
         if (tipo) {
           let selectedTipo = this.tipos.filter(p => p.tipoPreguntaId === +tipo)[0];
           // console.log(selectedTipo);
-          if (selectedTipo && selectedTipo.descripcion === "Abierta") {
-            this.textoLargo = true;
-            this.dicotomica = false;
+          // Seleccion multiple con unca respuesta
+          if (selectedTipo && selectedTipo.tipoPreguntaId === 1) {
+            this.listDespl = false;
+            this.unicaRespuesta = true;
             this.seleccionMultiple = false;
+            this.addOpcion();
           }
-          else if (selectedTipo && selectedTipo.descripcion === "Dicotómica") {
-            this.textoLargo = false;
-            this.dicotomica = true;
-            this.seleccionMultiple = false;
+          // Seleccion multiple con varias respuestas
+          else if (selectedTipo && selectedTipo.tipoPreguntaId === 2) {
+            this.listDespl = false;
+            this.unicaRespuesta = false;
+            this.seleccionMultiple = true;
           }
-          else if (selectedTipo && selectedTipo.descripcion === "Selección múltiple") {
-            this.textoLargo = false;
-            this.dicotomica = false;
+          // Lista desplegable
+          else if (selectedTipo && selectedTipo.tipoPreguntaId === 3) {
+            this.listDespl = false;
+            this.unicaRespuesta = false;
             this.seleccionMultiple = true;
           }
         }
@@ -168,11 +176,13 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       this.preguntaForm.reset();
     this.pregunta = pregunta;
 
-    if (this.pregunta.preguntaId === 0)
+    if (this.pregunta.preguntaId === 0) {
       this.pageTitle = 'Agregar Pregunta';
-    else
+      this.setOpciones([]);
+    }
+    else {
       this.pageTitle = `Editar Pregunta: ${this.pregunta.descripcion}`;
-
+    }
     this.preguntaForm.patchValue({
       descripcion: this.pregunta.descripcion,
       grupoPregun: this.pregunta.grupoPregun,
@@ -196,8 +206,8 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
               type: 'success',
               button: "Ok!",
               allowOutsideClick: false,
-            }).then((result)=>{
-              if(result.value){
+            }).then((result) => {
+              if (result.value) {
                 this.onSaveComplete();
               }
             });
@@ -232,4 +242,24 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     this.router.navigate(['/preguntas']);
   }
 
+  get opciones(): FormArray {
+    return this.preguntaForm.get('opciones') as FormArray;
+  }
+
+  addOpcion() {
+    let rest: IRespuesta = {descripcion: '', clave: false};
+    this.opciones.push(this.fb.group(rest));
+  }
+
+  setOpciones(opciones: IRespuesta[]) {
+    const opcionFGs = opciones.map(opcion => this.fb.group(opcion));
+    const opcionFormArray = this.fb.array(opcionFGs);
+    this.preguntaForm.setControl('opciones', opcionFormArray);
+    console.log(opcionFormArray);
+
+  }
+
+  eliminarOpcion(i: number) {
+    (this.preguntaForm.get('opciones') as FormArray).removeAt(i);
+  }
 }
