@@ -94,8 +94,6 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     this.getGruposPregunta();
 
     this.preguntaForm.controls['tipoPregun'].valueChanges.subscribe(tipo => {
-        // console.log(typeof tipo);
-        // console.log(this.tipos);
         if (tipo) {
           let selectedTipo = this.tipos.filter(p => p.tipoPreguntaId === +tipo)[0];
           // console.log(selectedTipo);
@@ -104,23 +102,56 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             this.listDespl = false;
             this.unicaRespuesta = true;
             this.seleccionMultiple = false;
-            this.addOpcion();
+            if (!this.opciones.length) {
+              this.addOpcion();
+            }
           }
           // Seleccion multiple con varias respuestas
           else if (selectedTipo && selectedTipo.tipoPreguntaId === 2) {
             this.listDespl = false;
             this.unicaRespuesta = false;
             this.seleccionMultiple = true;
+            if (!this.opciones.length) {
+              this.addOpcion();
+            }
           }
           // Lista desplegable
           else if (selectedTipo && selectedTipo.tipoPreguntaId === 3) {
             this.listDespl = false;
             this.unicaRespuesta = false;
             this.seleccionMultiple = true;
+            if (!this.opciones.length) {
+              this.addOpcion();
+            }
+          }
+          // Respuesta corta
+          else if (selectedTipo && selectedTipo.tipoPreguntaId === 4) {
+            this.listDespl = false;
+            this.unicaRespuesta = false;
+            this.seleccionMultiple = false;
+            GenericValidator.purgeForm(this.opciones);
+          }
+          // Parrafo
+          else if (selectedTipo && selectedTipo.tipoPreguntaId === 4) {
+            this.listDespl = false;
+            this.unicaRespuesta = false;
+            this.seleccionMultiple = false;
+            GenericValidator.purgeForm(this.opciones);
           }
         }
       }
     );
+    // this.preguntaForm.controls['opciones'].valueChanges.subscribe(
+    //   op => {
+    //     // console.log(op);
+    //     console.log(op);
+    //     if (op) {
+    //       if (op.clave === 1) {
+    //
+    //       }
+    //     }
+    //   }
+    // );
 
     //
     // this.preguntaForm.controls['tipoPregun'].setValue(selectedTipo);

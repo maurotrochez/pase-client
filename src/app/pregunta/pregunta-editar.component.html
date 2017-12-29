@@ -98,7 +98,7 @@
                         </span>
             </div>
           </div>
-          <div *ngIf="unicaRespuesta">
+          <div *ngIf="unicaRespuesta || seleccionMultiple || listDespl">
             <button class="btn btn-primary"
                     type="submit"
                     style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar opciones de respuesta
@@ -114,18 +114,12 @@
                          placeholder="Descripcion"
                          id="{{'opcion1Id' + i}}"
                          formControlName="descripcion"/>
-                  <input type="radio" name="" id="{{'opcion1Id' + i}}" formControlName="clave" name="clave" [value]="i">
+                  <!--<input type="radio" name="" id="{{'opcion1Id' + i}}" formControlName="clave" name="clave" [value]="1">-->
                   <button class="btn btn-danger" (click)="eliminarOpcion(i)">Eliminar</button>
                 </div>
               </div>
             </div>
 
-          </div>
-          <div *ngIf="seleccionMultiple">
-            <p>Seleccion multiple</p>
-          </div>
-          <div *ngIf="listDespl">
-            <p>Lista desplegable</p>
           </div>
 
           <div class="form-group row">
