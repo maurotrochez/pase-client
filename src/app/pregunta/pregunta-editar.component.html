@@ -14,10 +14,10 @@
         <fieldset>
           <div class="form-group row"
                [ngClass]="{'has-danger': displayMessage.descripcion}">
-            <label class="col-md-2 control-label" for="descripcionPreguntaId">Descripción</label>
+            <label class="col-md-2 control-label form-control-sm" for="descripcionPreguntaId">Descripción</label>
 
             <div class="col-md-6">
-             <textarea class="form-control"
+             <textarea class="form-control form-control-sm"
                        id="descripcionPreguntaId"
                        placeholder="Descripcion"
                        rows=3
@@ -30,10 +30,10 @@
 
           <div class="form-group row"
                [ngClass]="{'has-error': displayMessage.estado}">
-            <label class="col-md-2 control-label" for="estadoId">Estado</label>
+            <label class="col-md-2 control-label form-control-sm" for="estadoId">Estado</label>
 
             <div class="col-md-8">
-              <input class="form-control"
+              <input class="form-control form-control-sm"
                      id="estadoId"
                      type="text"
                      placeholder="Estado (required)"
@@ -45,7 +45,7 @@
           </div>
 
           <div class="form-group row" [ngClass]="{'has-error': displayMessage.grupoPregunta}">
-            <label class="col-md-2 control-label" for="grupoPreguntafId">Grupo de pregunta</label>
+            <label class="col-md-2 control-label form-control-sm" for="grupoPreguntafId">Grupo de pregunta</label>
 
             <div class="col-md-8">
               <!--<input class="form-control"-->
@@ -53,7 +53,8 @@
               <!--type="text"-->
               <!--placeholder="Grupo de pregunta"-->
               <!--formControlName="grupoPregun"/>-->
-              <select class="custom-select form-control" id="grupoPreguntafId" formControlName="grupoPregun">
+              <select class="custom-select form-control form-control-sm" id="grupoPreguntafId"
+                      formControlName="grupoPregun">
                 <option *ngFor="let grupo of grupos" [value]="grupo.grupoPreguntaId">{{grupo.descripcion}}</option>
               </select>
               <span class="help-block" *ngIf="displayMessage.grupoPregunta">
@@ -63,10 +64,10 @@
           </div>
 
           <div class="form-group row" [ngClass]="{'has-error': displayMessage.dependencia}">
-            <label class="col-md-2 control-label" for="dependenciafId">Dependencia</label>
+            <label class="col-md-2 control-label form-control-sm" for="dependenciafId">Dependencia</label>
 
             <div class="col-md-8">
-              <input class="form-control"
+              <input class="form-control form-control-sm"
                      id="dependenciafId"
                      type="text"
                      placeholder="Dependencia"
@@ -75,10 +76,10 @@
           </div>
 
           <div class="form-group row" [ngClass]="{'has-error': displayMessage.texto}">
-            <label class="col-md-2 control-label" for="textofId">Texto</label>
+            <label class="col-md-2 control-label form-control-sm" for="textofId">Texto</label>
 
             <div class="col-md-8">
-              <input class="form-control"
+              <input class="form-control form-control-sm"
                      id="textofId"
                      type="text"
                      placeholder="Texto"
@@ -87,10 +88,11 @@
           </div>
           <div class="form-group row"
                [ngClass]="{'has-danger': displayMessage.tipoPregunta}">
-            <label class="col-md-2 control-label" for="tipoPreguntafId">Tipo de pregunta</label>
+            <label class="col-md-2 control-label form-control-sm" for="tipoPreguntafId">Tipo de pregunta</label>
 
             <div class="col-md-8">
-              <select class="custom-select form-control" id="tipoPreguntafId" formControlName="tipoPregun">
+              <select class="custom-select form-control form-control-sm" id="tipoPreguntafId"
+                      formControlName="tipoPregun">
                 <option *ngFor="let tipo of tipos" [value]="tipo.tipoPreguntaId">{{tipo.descripcion}}</option>
               </select>
               <span class="form-control-feedback" *ngIf="displayMessage.tipoPregunta">
@@ -98,24 +100,28 @@
                         </span>
             </div>
           </div>
-          <div *ngIf="unicaRespuesta || seleccionMultiple || listDespl">
-            <button class="btn btn-primary"
+          <div class="form-control" formArrayName="opciones" *ngIf="unicaRespuesta || seleccionMultiple || listDespl">
+            <h5>Opciones</h5>
+            <button class="btn btn-primary btn-sm"
                     type="submit"
-                    style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar opciones de respuesta
+                    style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar
             </button>
-            <div class="form-control" formArrayName="opciones">
+            <div style="width: 80%">
+              <br>
               <div *ngFor="let respuesta of opciones.controls; let i=index">
-                <div [formGroupName]="i">
+                <div class="row" [formGroupName]="i">
                   <!--<h4>Opcion {{ i + 1 }}</h4>-->
                   <!--<span>{{i+1}}</span>-->
-                  <label class="col-md-1 control-label" attr.for="{{'opcion1Id' + i}}">{{i+1}}</label>
-                  <input class="col-md-8"
+                  <label class="col-md-1 control-label form-control-sm" attr.for="{{'opcion1Id' + i}}">{{i+1}}</label>
+                  <input class="col-md-6 form-control form-control-sm"
                          type="text"
                          placeholder="Descripcion"
                          id="{{'opcion1Id' + i}}"
                          formControlName="descripcion"/>
-                  <!--<input type="radio" name="" id="{{'opcion1Id' + i}}" formControlName="clave" name="clave" [value]="1">-->
-                  <button class="btn btn-danger" (click)="eliminarOpcion(i)">Eliminar</button>
+                  <input class="checkbox_opcion" type="checkbox"
+                         id="{{'clave1Id' + i}}" formControlName="clave" name="clave"/>
+                  <label class="col-md-2 control-label form-control-sm" attr.for="{{'clave1Id' + i}}">Correcta</label>
+                  <button class="btn btn-danger btn-sm" (click)="eliminarOpcion(i)">X</button>
                 </div>
               </div>
             </div>
@@ -129,21 +135,21 @@
                                     type="submit"
                                     style="width:80px;margin-right:10px"
                                     [disabled]='!preguntaForm.valid'>
-                                Save
+                                Guardar
                             </button>
                         </span>
               <span>
                             <a class="btn btn-default"
                                style="width:80px"
                                [routerLink]="['/preguntas']">
-                                Cancel
+                                Cancelar
                             </a>
                         </span>
               <span>
                             <a class="btn btn-default"
                                style="width:80px"
                                (click)="deletePregunta()">
-                                Delete
+                                Eliminar
                             </a>
                         </span>
             </div>

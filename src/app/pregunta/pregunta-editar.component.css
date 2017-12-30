@@ -1,0 +1,6 @@
+.checkbox_opcion {
+  position: relative;
+  top: 50%;
+  transform: translateY(50%);
+  margin-left: 5px;
+}
