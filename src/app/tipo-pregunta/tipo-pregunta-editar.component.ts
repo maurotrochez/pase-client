@@ -78,7 +78,15 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
   getTipoPregunta(id: number): void {
     this.servicioTipoPregunta.getTipoPregunta(id).subscribe(
       (tipo: ITipoPregunta) => this.onTipoRetrieved(tipo),
-      (error: any) => this.errorMessage = <any>error
+      (error: any) => {
+        this.errorMessage = <any>error;
+        swal({
+          title: "Error",
+          text: this.errorMessage,
+          type: 'error',
+          allowOutsideClick: false,
+        });
+      }
     );
   }
 
@@ -119,6 +127,12 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
           },
           (error: any) => {
             this.errorMessage = <any>error;
+            swal({
+              title: "Error",
+              text: this.errorMessage,
+              type: 'error',
+              allowOutsideClick: false,
+            });
           }
         );
     } else if (!this.tipoPreguntaForm.dirty) {
@@ -134,7 +148,15 @@ export class TipoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDes
         this.servicioTipoPregunta.deleteTipoPregunta(this.tipoPregunta.tipoPreguntaId)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
+            (error: any) => {
+              this.errorMessage = <any>error;
+              swal({
+                title: "Error",
+                text: this.errorMessage,
+                type: 'error',
+                allowOutsideClick: false,
+              });
+            }
           );
       }
     }

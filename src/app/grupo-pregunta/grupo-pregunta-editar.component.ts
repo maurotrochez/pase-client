@@ -80,7 +80,15 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
   getGrupoPregunta(id: number): void {
     this.servicioGrupoPregunta.getGrupoPregunta(id).subscribe(
       (grupo: IGrupoPregunta) => this.onGrupoRetrieved(grupo),
-      (error: any) => this.errorMessage = <any>error
+      (error: any) => {
+        this.errorMessage = <any>error;
+        swal({
+          title: "Error",
+          text: this.errorMessage,
+          type: 'error',
+          allowOutsideClick: false,
+        });
+      }
     );
   }
 
@@ -112,8 +120,8 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
               type: 'success',
               button: "Ok!",
               allowOutsideClick: false,
-            }).then((result)=>{
-              if(result.value){
+            }).then((result) => {
+              if (result.value) {
                 this.onSaveComplete();
               }
             });
@@ -121,6 +129,12 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
           },
           (error: any) => {
             this.errorMessage = <any>error;
+            swal({
+              title: "Error",
+              text: this.errorMessage,
+              type: 'error',
+              allowOutsideClick: false,
+            });
           }
         );
     } else if (!this.grupoPreguntaForm.dirty) {
@@ -137,8 +151,13 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
           .subscribe(
             () => this.onSaveComplete(),
             (error: HttpErrorResponse) => {
-              console.log(error);
               this.errorMessage = <any>error;
+              swal({
+                title: "Error",
+                text: this.errorMessage,
+                type: 'error',
+                allowOutsideClick: false,
+              });
             }
           );
       }

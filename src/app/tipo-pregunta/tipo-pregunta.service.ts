@@ -55,7 +55,7 @@ export class TipoPreguntaService {
   deleteTipoPregunta(id: number): Observable<any> {
     const headers = new HttpHeaders().set('Content-type', 'application/json');
     const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/${id}`;
-    return this.http.delete(url, {responseType: 'text'})
+    return this.http.delete(url, {responseType: 'json'})
       .do(data => console.log('deleteTipoPregunta'))
       .catch(this.errorHandler);
   }
@@ -71,17 +71,15 @@ export class TipoPreguntaService {
   }
 
   private errorHandler(error: HttpErrorResponse) {
-    console.error(error);
     let errorMessage = '';
-    if (error.error instanceof Error) {
+    if (error.error instanceof HttpErrorResponse) {
       // A client-side or network error occurred. Handle it accordingly.
       errorMessage = `An error occurred: ${error.error.message}`;
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
+      errorMessage = error.error.message;
     }
-    console.error(errorMessage);
     return Observable.throw(errorMessage);
   }
 

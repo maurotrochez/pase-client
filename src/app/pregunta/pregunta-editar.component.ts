@@ -294,7 +294,15 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
         this.servicioPregunta.deletePregunta(this.pregunta.preguntaId)
           .subscribe(
             () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
+            (error: any) => {
+              this.errorMessage = <any>error;
+              swal({
+                title: "Error",
+                text: this.errorMessage,
+                type: 'error',
+                allowOutsideClick: false,
+              });
+            }
           );
       }
     }
