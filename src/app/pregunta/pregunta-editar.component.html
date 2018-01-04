@@ -33,11 +33,11 @@
             <label class="col-md-2 control-label form-control-sm" for="estadoId">Estado</label>
 
             <div class="col-md-8">
-              <input class="form-control form-control-sm"
-                     id="estadoId"
-                     type="text"
-                     placeholder="Estado (required)"
-                     formControlName="estado"/>
+              <select class="custom-select form-control form-control-sm" id="estadoId"
+                      formControlName="estado">
+                <option *ngFor="let estado of estados" [value]="estado.id">{{estado.descripcion}}</option>
+              </select>
+
               <span class="help-block" *ngIf="displayMessage.estado">
                                 {{displayMessage.estado}}
                         </span>
@@ -102,10 +102,9 @@
           </div>
           <div class="form-control" formArrayName="opciones" *ngIf="unicaRespuesta || seleccionMultiple || listDespl">
             <h5>Opciones</h5>
-            <button class="btn btn-primary btn-sm"
-                    type="submit"
-                    style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar
-            </button>
+            <a class="btn btn-primary btn-sm"
+               style="width:80px;margin-right:10px" (click)="addOpcion()">Agregar
+            </a>
             <div style="width: 80%">
               <br>
               <div *ngFor="let respuesta of opciones.controls; let i=index">

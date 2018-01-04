@@ -1,3 +1,5 @@
+import {IRespuesta} from "./respuesta";
+
 export interface IPregunta {
   grupoPregun?: number;
   tipoPregun?: number;
@@ -10,4 +12,5 @@ export interface IPregunta {
   estado: string;
   creadoEn?: string;
   modifEn?: string;
+  opciones?: IRespuesta[];
 }

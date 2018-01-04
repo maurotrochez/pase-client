@@ -5,6 +5,7 @@ import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PreguntaService} from "./pregunta.service";
 import { PreguntaEditarComponent } from './pregunta-editar.component';
+import {RespuestaPreguntaService} from "./respuesta-pregunta.service";
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { PreguntaEditarComponent } from './pregunta-editar.component';
     ])
   ],
   declarations: [PreguntaListaComponent, PreguntaEditarComponent],
-  providers: [PreguntaService]
+  providers: [PreguntaService, RespuestaPreguntaService]
 })
 export class PreguntaModule { }

@@ -17,6 +17,8 @@ import {ITipoPregunta} from "../tipo-pregunta/tipo-pregunta";
 import {IGrupoPregunta} from "../grupo-pregunta/grupo-pregunta";
 import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
 import {IRespuesta} from "./respuesta";
+import {RespuestaPreguntaService} from "./respuesta-pregunta.service";
+import {IEstado} from "./estado";
 
 // CommonJS
 const swal = require('sweetalert2');
@@ -42,13 +44,15 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   listDespl = false;
   unicaRespuesta = false;
   seleccionMultiple = false;
+  estados: IEstado[] = [{descripcion: 'Activo', id: 'A'}, {descripcion: 'Inactivo', id: 'I'}];
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private servicioPregunta: PreguntaService,
               private servicioTiposPregunta: TipoPreguntaService,
-              private servicioGrupos: GrupoPreguntaService) {
+              private servicioGrupos: GrupoPreguntaService,
+              private servicioRespuestaPregunta: RespuestaPreguntaService) {
     this.validationMessages = {
       descripcion: {
         required: 'La descripción es requerida.',
@@ -76,7 +80,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
         Validators.maxLength(50)]],
       tipoPregun: new FormControl(this.tipos),
       grupoPregun: [this.grupos, Validators.required],
-      estado: ['', Validators.required],
+      estado: [this.estados, Validators.required],
       dependencia: [''],
       texto: [''],
       descripcionTextoLargo: [''],
@@ -132,7 +136,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             GenericValidator.purgeForm(this.opciones);
           }
           // Parrafo
-          else if (selectedTipo && selectedTipo.tipoPreguntaId === 4) {
+          else if (selectedTipo && selectedTipo.tipoPreguntaId === 5) {
             this.listDespl = false;
             this.unicaRespuesta = false;
             this.seleccionMultiple = false;
@@ -210,9 +214,15 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     if (this.pregunta.preguntaId === 0) {
       this.pageTitle = 'Agregar Pregunta';
       this.setOpciones([]);
-    }
-    else {
+    } else {
       this.pageTitle = `Editar Pregunta: ${this.pregunta.descripcion}`;
+      if (this.pregunta.tipoPregun !== +4 || this.pregunta.tipoPregun !== 5) {
+        this.servicioRespuestaPregunta.getRespuestaPreguntasByPreguntaId(this.pregunta.preguntaId).subscribe(
+          (data) => {
+            this.setOpciones(data);
+          }, (error: any) => this.errorMessage = <any>error
+        );
+      }
     }
     this.preguntaForm.patchValue({
       descripcion: this.pregunta.descripcion,
@@ -231,18 +241,41 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       this.servicioPregunta.savePregunta(t)
         .subscribe(
           (data) => {
-            swal({
-              title: "Excelente!",
-              text: data,
-              type: 'success',
-              button: "Ok!",
-              allowOutsideClick: false,
-            }).then((result) => {
-              if (result.value) {
-                this.onSaveComplete();
-              }
-            });
             console.log(data);
+            if (t.tipoPregun === '4' || t.tipoPregun === '5') {
+              swal({
+                title: "Excelente!",
+                text: data,
+                type: 'success',
+                button: "Ok!",
+                allowOutsideClick: false,
+              }).then((result) => {
+                if (result.value) {
+                  this.onSaveComplete();
+                }
+              });
+            } else {
+              t.opciones.forEach(x => {
+                x.preguntaId = data;
+                x.clave = Number(x.clave);
+              });
+              this.servicioRespuestaPregunta.saveRespuestaPreguntas(t.opciones).subscribe(
+                (dataR) => {
+                  swal({
+                    title: "Excelente!",
+                    text: dataR,
+                    type: 'success',
+                    button: "Ok!",
+                    allowOutsideClick: false,
+                  }).then((result) => {
+                    if (result.value) {
+                      this.onSaveComplete();
+                    }
+                  });
+
+                }
+              );
+            }
           },
           (error: any) => {
             this.errorMessage = <any>error;

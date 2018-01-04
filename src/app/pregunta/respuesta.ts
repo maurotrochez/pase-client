@@ -3,4 +3,8 @@ export interface IRespuesta {
   descripcion: string;
   clave: boolean;
   preguntaId?: number;
+  creadoPor?: number;
+  modifPor?: number;
+  creadoEn?: string;
+  modifEn?: string;
 }
