@@ -7,4 +7,5 @@ export interface IRespuesta {
   modifPor?: number;
   creadoEn?: string;
   modifEn?: string;
+  id?: string;
 }

@@ -19,6 +19,7 @@ import {GrupoPreguntaService} from "../grupo-pregunta/grupo-pregunta.service";
 import {IRespuesta} from "./respuesta";
 import {RespuestaPreguntaService} from "./respuesta-pregunta.service";
 import {IEstado} from "./estado";
+import {v4 as uuid} from 'uuid';
 
 // CommonJS
 const swal = require('sweetalert2');
@@ -45,6 +46,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
   unicaRespuesta = false;
   seleccionMultiple = false;
   estados: IEstado[] = [{descripcion: 'Activo', id: 'A'}, {descripcion: 'Inactivo', id: 'I'}];
+  tipoInput = 'radio';
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -109,6 +111,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             if (!this.opciones.length) {
               this.addOpcion();
             }
+            this.tipoInput = 'radio';
           }
           // Seleccion multiple con varias respuestas
           else if (selectedTipo && selectedTipo.tipoPreguntaId === 2) {
@@ -118,6 +121,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             if (!this.opciones.length) {
               this.addOpcion();
             }
+            this.tipoInput = 'checkbox';
           }
           // Lista desplegable
           else if (selectedTipo && selectedTipo.tipoPreguntaId === 3) {
@@ -127,6 +131,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
             if (!this.opciones.length) {
               this.addOpcion();
             }
+            this.tipoInput = 'radio';
           }
           // Respuesta corta
           else if (selectedTipo && selectedTipo.tipoPreguntaId === 4) {
@@ -145,21 +150,6 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
         }
       }
     );
-    // this.preguntaForm.controls['opciones'].valueChanges.subscribe(
-    //   op => {
-    //     // console.log(op);
-    //     console.log(op);
-    //     if (op) {
-    //       if (op.clave === 1) {
-    //
-    //       }
-    //     }
-    //   }
-    // );
-
-    //
-    // this.preguntaForm.controls['tipoPregun'].setValue(selectedTipo);
-
   }
 
   selectTipo(tipo) {
@@ -216,7 +206,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
       this.setOpciones([]);
     } else {
       this.pageTitle = `Editar Pregunta: ${this.pregunta.descripcion}`;
-      if (this.pregunta.tipoPregun !== +4 || this.pregunta.tipoPregun !== 5) {
+      if (this.pregunta.tipoPregun !== Number(4) || this.pregunta.tipoPregun !== Number(5)) {
         this.servicioRespuestaPregunta.getRespuestaPreguntasByPreguntaId(this.pregunta.preguntaId).subscribe(
           (data) => {
             this.setOpciones(data);
@@ -318,17 +308,43 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
     return this.preguntaForm.get('opciones') as FormArray;
   }
 
+  initOpcion() {
+    let rest: IRespuesta = {descripcion: '', clave: false, id: uuid()};
+    return this.fb.group(rest);
+  }
+
   addOpcion() {
-    let rest: IRespuesta = {descripcion: '', clave: false};
-    this.opciones.push(this.fb.group(rest));
+    const opc = this.initOpcion();
+    this.opciones.push(opc);
+  }
+
+  assignClave(id: string) {
+    this.preguntaForm.value.opciones.forEach(e => {
+      if (this.tipoInput !== "checkbox") {
+        e.clave = e.id === id;
+      } else {
+        if (e.id === id) {
+          e.clave = !e.clave;
+          return;
+        }
+      }
+    });
   }
 
   setOpciones(opciones: IRespuesta[]) {
     const opcionFGs = opciones.map(opcion => this.fb.group(opcion));
+    opcionFGs.forEach(o => {
+        o.get('clave').valueChanges.subscribe(x => {
+          this.onChangeClave(o);
+        });
+      }
+    );
     const opcionFormArray = this.fb.array(opcionFGs);
     this.preguntaForm.setControl('opciones', opcionFormArray);
-    console.log(opcionFormArray);
+  }
 
+  onChangeClave(a) {
+    console.log(a);
   }
 
   eliminarOpcion(i: number) {

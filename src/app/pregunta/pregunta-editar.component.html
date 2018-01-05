@@ -117,7 +117,7 @@
                          placeholder="Descripcion"
                          id="{{'opcion1Id' + i}}"
                          formControlName="descripcion"/>
-                  <input class="checkbox_opcion" type="checkbox"
+                  <input class="checkbox_opcion" attr.type="{{tipoInput}}" (change)="assignClave(respuesta.controls.id.value)"
                          id="{{'clave1Id' + i}}" formControlName="clave" name="clave"/>
                   <label class="col-md-2 control-label form-control-sm" attr.for="{{'clave1Id' + i}}">Correcta</label>
                   <button class="btn btn-danger btn-sm" (click)="eliminarOpcion(i)">X</button>
