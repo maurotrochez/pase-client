@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {IGrupoPregunta} from "./grupo-pregunta";
 import {AppSettings} from "../global";
 
+
 @Injectable()
 export class GrupoPreguntaService {
 
