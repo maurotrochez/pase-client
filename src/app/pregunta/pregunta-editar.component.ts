@@ -333,12 +333,6 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
 
   setOpciones(opciones: IRespuesta[]) {
     const opcionFGs = opciones.map(opcion => this.fb.group(opcion));
-    opcionFGs.forEach(o => {
-        o.get('clave').valueChanges.subscribe(x => {
-          this.onChangeClave(o);
-        });
-      }
-    );
     const opcionFormArray = this.fb.array(opcionFGs);
     this.preguntaForm.setControl('opciones', opcionFormArray);
   }

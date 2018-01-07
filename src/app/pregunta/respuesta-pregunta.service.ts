@@ -3,7 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {IRespuesta} from "./respuesta";
 import {Observable} from "rxjs/Observable";
 import {AppSettings} from "../global";
-import {IPregunta} from "./pregunta";
+import {v4 as uuid} from 'uuid';
 
 @Injectable()
 export class RespuestaPreguntaService {
@@ -33,7 +33,13 @@ export class RespuestaPreguntaService {
   getRespuestaPreguntasByPreguntaId(id: number): Observable<any> {
     return this.http
       .get<IRespuesta[]>(`${AppSettings.API_ENDPOINT}${this.baseUrl}/${id}`)
-      .do(data => console.log('getRespuestas : ' + JSON.stringify(data)))
+      .do(data => {
+        data.forEach(x => {
+          x.id = uuid();
+          x.clave = Boolean(x.clave);
+        });
+        console.log('getRespuestas : ' + JSON.stringify(data));
+      })
       .catch(this.errorHandler);
   }
 
