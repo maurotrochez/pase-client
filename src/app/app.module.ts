@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import {HttpClientModule} from "@angular/common/http";
 import {TipoPreguntaModule} from "./tipo-pregunta/tipo-pregunta.module";
 import {GrupoPreguntaModule} from "./grupo-pregunta/grupo-pregunta.module";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {GrupoPreguntaModule} from "./grupo-pregunta/grupo-pregunta.module";
     HomeComponent,
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent}

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {IGrupoPregunta} from "./grupo-pregunta";
-import {GrupoPreguntaService} from "./grupo-pregunta.service";
+import {IGrupoPregunta} from './grupo-pregunta';
+import {GrupoPreguntaService} from './grupo-pregunta.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-grupo-pregunta-lista',
@@ -14,7 +15,7 @@ export class GrupoPreguntaListaComponent implements OnInit {
   errorMessage: string;
   grupoPreguntas: IGrupoPregunta[];
 
-  constructor(private servicioGrupoPregunta: GrupoPreguntaService) {
+  constructor(private servicioGrupoPregunta: GrupoPreguntaService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -24,5 +25,7 @@ export class GrupoPreguntaListaComponent implements OnInit {
       }, error2 => this.errorMessage = error2
     );
   }
-
+ver(modal){
+    this.modalService.open(modal);
+}
 }
