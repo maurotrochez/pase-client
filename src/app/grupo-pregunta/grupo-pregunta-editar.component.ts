@@ -1,12 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChildren} from '@angular/core';
-import {FormBuilder, FormControlName, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {IGrupoPregunta} from "./grupo-pregunta";
-import {Subscription} from "rxjs/Subscription";
-import {GenericValidator} from "../shared/generic-validator";
-import {Observable} from "rxjs/Observable";
-import {GrupoPreguntaService} from "./grupo-pregunta.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChildren} from '@angular/core';
+import {FormBuilder, FormControlName, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IGrupoPregunta} from './grupo-pregunta';
+import {Subscription} from 'rxjs/Subscription';
+import {GenericValidator} from '../shared/generic-validator';
+import {Observable} from 'rxjs/Observable';
+import {GrupoPreguntaService} from './grupo-pregunta.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {GrupoPreguntaListaComponent} from './grupo-pregunta-lista.component';
+import {Location} from '@angular/common';
 // CommonJS
 
 const swal = require('sweetalert2');
@@ -17,9 +20,9 @@ const swal = require('sweetalert2');
   styleUrls: ['./grupo-pregunta-editar.component.css']
 })
 export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() id;
   @ViewChildren(FormControlName, {read: ElementRef}) formInputElements: ElementRef[];
-
-  pageTitle: string = 'Editar grupo de pregunta';
+  pageTitle = 'Editar grupo de pregunta';
   errorMessage: string;
   grupoPreguntaForm: FormGroup;
 
@@ -34,7 +37,8 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private servicioGrupoPregunta: GrupoPreguntaService) {
+              private servicioGrupoPregunta: GrupoPreguntaService,
+              private activeModal: NgbActiveModal) {
 
     this.validationMessages = {
       descripcion: {
@@ -53,18 +57,13 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
         Validators.minLength(3),
         Validators.maxLength(50)]]
     });
+    this.getGrupoPregunta(this.id);
 
-    this.sub = this.route.params.subscribe(
-      params => {
-        const id = +params['id'];
-        this.getGrupoPregunta(id);
-      }
-    );
   }
 
   ngAfterViewInit(): void {
     // Watch for the blur event from any input element on the form.
-    let controlBlurs: Observable<any>[] = this.formInputElements
+    const controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
     // Merge the blur event observable with the valueChanges observable
@@ -74,7 +73,7 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    //this.sub.unsubscribe();
   }
 
   getGrupoPregunta(id: number): void {
@@ -83,7 +82,7 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
       (error: any) => {
         this.errorMessage = <any>error;
         swal({
-          title: "Error",
+          title: 'Error',
           text: this.errorMessage,
           type: 'error',
           allowOutsideClick: false,
@@ -109,16 +108,16 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
 
   saveGrupoPregunta(): void {
     if (this.grupoPreguntaForm.dirty && this.grupoPreguntaForm.valid) {
-      let t = Object.assign({}, this.grupoPregunta, this.grupoPreguntaForm.value);
+      const t = Object.assign({}, this.grupoPregunta, this.grupoPreguntaForm.value);
 
       this.servicioGrupoPregunta.saveGrupoPregunta(t)
         .subscribe(
           (data) => {
             swal({
-              title: "Excelente!",
+              title: 'Excelente!',
               text: data,
               type: 'success',
-              button: "Ok!",
+              button: 'Ok!',
               allowOutsideClick: false,
             }).then((result) => {
               if (result.value) {
@@ -130,7 +129,7 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
           (error: any) => {
             this.errorMessage = <any>error;
             swal({
-              title: "Error",
+              title: 'Error',
               text: this.errorMessage,
               type: 'error',
               allowOutsideClick: false,
@@ -153,7 +152,7 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
             (error: HttpErrorResponse) => {
               this.errorMessage = <any>error;
               swal({
-                title: "Error",
+                title: 'Error',
                 text: this.errorMessage,
                 type: 'error',
                 allowOutsideClick: false,
@@ -166,8 +165,13 @@ export class GrupoPreguntaEditarComponent implements OnInit, AfterViewInit, OnDe
 
   onSaveComplete(): void {
     // Reset the form to clear the flags
+    this.activeModal.close();
     this.grupoPreguntaForm.reset();
-    this.router.navigate(['/grupos']);
+    //this.componentList.ngOnInit();
+
   }
 
+  close(){
+    this.activeModal.close();
+  }
 }

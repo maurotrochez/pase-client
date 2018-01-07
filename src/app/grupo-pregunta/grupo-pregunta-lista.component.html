@@ -1,7 +1,7 @@
 <div class='blog-main'>
   <div class="sidebar-module sidebar-module-inset">
     <h4>
-     {{ pageTitle }}}
+     {{ pageTitle }}
     </h4>
     <br>
 
@@ -21,7 +21,7 @@
 
       </div>
       <div class="col-md-0">
-        <a class="btn btn-primary btn-sm" (click)="ver(prueba)">
+        <a class="btn btn-primary btn-sm" (click)="ver(0)">
           Agregar
         </a>
       </div>
@@ -40,7 +40,7 @@
         <tbody>
         <tr *ngFor='let grup of grupoPreguntas'>
           <td><a [routerLink]="['/grupo', grup.grupoPreguntaId]">
-           {{ grup.descripcion }}}
+           {{ grup.descripcion }}
           </a>
           </td>
           <td style="text-align: right;">
@@ -60,7 +60,6 @@
     <h4 class="modal-title">Esto es una prueba</h4>
   </div>
   <div class="modal-body">
-    <div>Id:</div>
   </div>
   <div class="modal-footer">
 
