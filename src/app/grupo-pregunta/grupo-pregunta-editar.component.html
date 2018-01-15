@@ -1,7 +1,7 @@
 <div class="blog-main">
   <div class="sidebar-module sidebar-module-inset">
 
-    <h3>{{pageTitle}}</h3>
+    <h3>{{ pageTitle }}</h3>
     <hr>
 
     <div >
@@ -23,13 +23,13 @@
                        rows=3
                        formControlName="descripcion"></textarea>
               <span class="help-block" *ngIf="displayMessage.descripcion">
-                                {{displayMessage.descripcion}}
+                               {{ displayMessage.descripcion }}}
                         </span>
             </div>
           </div>
 
           <div class="form-group row">
-            <div class="col-md-4 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2">
                         <span>
                             <button class="btn btn-primary"
                                     type="submit"
@@ -41,7 +41,7 @@
               <span>
                             <a class="btn btn-default"
                                style="width:80px"
-                               [routerLink]="['/grupos']">
+                               (click)="close()">
                                 Cancel
                             </a>
                         </span>
