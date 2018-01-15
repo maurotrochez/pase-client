@@ -69,9 +69,9 @@ export class PreguntaService {
     const url = `${AppSettings.API_ENDPOINT}${this.baseUrl}/`;
     return this.http.put(url, pregunta, options)
       .map(() => pregunta)
-      .do(data => {
+      .do(() => {
         console.log('updatePregunta:');
-        return data;
+        return pregunta.preguntaId;
       })
       .catch(this.errorHandler);
   }

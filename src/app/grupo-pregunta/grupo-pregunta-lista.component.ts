@@ -25,7 +25,8 @@ export class GrupoPreguntaListaComponent implements OnInit {
       }, error2 => this.errorMessage = error2
     );
   }
-ver(modal){
+
+  ver(modal) {
     this.modalService.open(modal);
-}
+  }
 }
