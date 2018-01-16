@@ -246,7 +246,7 @@ export class PreguntaEditarComponent implements OnInit, AfterViewInit, OnDestroy
               });
             } else {
               t.opciones.forEach(x => {
-                x.preguntaId = data;
+                x.preguntaId = x.preguntaId || data;
                 x.clave = Number(x.clave);
               });
               this.servicioRespuestaPregunta.saveRespuestaPreguntas(t.opciones).subscribe(

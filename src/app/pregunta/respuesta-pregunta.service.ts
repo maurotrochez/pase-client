@@ -24,7 +24,7 @@ export class RespuestaPreguntaService {
   }
 
   updateRespuestaPreguntas(respuestas: IRespuesta[], options: {}): Observable<any> {
-    const respuestasP: IRespuesta[] = [];
+    // const respuestasP: IRespuesta[] = [];
     respuestas.forEach(r => {
       if (r.respuestaPreguntaId === undefined) {
         r.creadoPor = 2;
@@ -33,6 +33,7 @@ export class RespuestaPreguntaService {
         r.modifEn = null;
       }
     });
+    console.log(respuestas);
     return this.http.put(`${AppSettings.API_ENDPOINT}${this.baseUrl}`, respuestas, options)
       .do(data => {
         console.log('UpdateRespuestaPregunta:');
